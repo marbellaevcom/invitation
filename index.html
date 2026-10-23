@@ -324,13 +324,17 @@ async function arrive(){
 async function play(){
   if(running||opened) return; running=true;
   env.classList.remove("tappable"); $("hint").style.opacity=0;
-  if(reduce){ showFinal(); running=false; return; }
   const p=finalPose();
   // 2. turn it over
-  await anim(env,[{transform:"rotateY(0deg)"},{transform:"rotateY(-8deg) rotateX(4deg)",offset:.15},{transform:"rotateY(180deg)"}],{duration:1300});
+  if(reduce){ // gentle version for "Reduce Motion": fade to the back instead of a 3D turn
+    await anim(env,[{opacity:1},{opacity:0}],{duration:350,easing:"ease-in"});
+  } else {
+    await anim(env,[{transform:"rotateY(0deg)"},{transform:"rotateY(-8deg) rotateX(4deg)",offset:.15},{transform:"rotateY(180deg)"}],{duration:1300});
+  }
   // swap to flat back so layers stack correctly
   env.getAnimations().forEach(a=>a.cancel()); env.style.transform="none"; env.style.transformStyle="flat";
   env.querySelector(".front").hidden=true; back.classList.add("flat");
+  if(reduce) await anim(env,[{opacity:0},{opacity:1}],{duration:350,easing:"ease-out"});
   await wait(250);
   // 3. open the flap
   const fa=anim(flap,[{transform:"perspective(900px) rotateX(0deg)"},{transform:"perspective(900px) rotateX(180deg)"}],{duration:900,easing:"ease-in-out"});
