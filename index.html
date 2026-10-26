@@ -142,7 +142,8 @@ body{background:var(--stone);color:var(--ink);font-family:var(--sans);overflow:h
 .rsvpbox .rd button{background:none;border:0;padding:4px 0;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 #bgImg{position:fixed;inset:0;background:#f1f1f0 url("bg/white-grain.jpg") center/cover no-repeat}
 /* RSVP modal */
-.scrim{position:fixed;inset:0;z-index:40;background:rgba(15,24,43,.45);display:flex;justify-content:flex-end}
+.scrim{position:fixed;inset:0;z-index:40;background:rgba(15,24,43,.45);display:flex;justify-content:flex-end;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.viewinv{margin-top:26px;width:100%}
 .sheet{width:min(460px,100%);height:100%;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;box-sizing:border-box;background:#fff;color:var(--ink);box-shadow:-10px 0 40px rgba(15,24,43,.25);
   padding-top:calc(26px + env(safe-area-inset-top,0px));padding-bottom:calc(30px + env(safe-area-inset-bottom,0px));
   padding-left:28px;padding-right:max(28px,env(safe-area-inset-right,0px));animation:slide .35s ease}
@@ -699,12 +700,14 @@ function renderInfo(){
     if(k==="guests"&&STATS.attending!=null){ const n=STATS.attending, names=STATS.names||[];
       out.push(block("Guest list", n ? (b.mode==="names"&&names.length ? `<ul class="glist">${names.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${n>names.length?`<p style="margin-top:8px">and ${n-names.length} more guest${n-names.length>1?"s":""}</p>`:""}` : `<p>${n} ${n===1?"person has":"people have"} confirmed.</p>`) : `<p>No confirmations yet.</p>`)); }
     if(k==="files"&&(b.items||[]).length) out.push(block("Downloads",`<div class="ilinks">${b.items.map(f=>`<button type="button" class="btn" data-file="${esc(f.id)}" data-name="${esc(f.name)}">${esc(f.name)}${f.size?` · ${esc(f.size)}`:""}</button>`).join("")}</div>`));
-    if(k==="sponsors"&&(b.items||[]).length) out.push(block("Sponsors",`<div class="spons">${b.items.map(s=>{ const inner=s.logo?`<img data-logo="${esc(s.logo)}" alt="${esc(s.name||"Sponsor")}">`:`<b>${esc(s.name)}</b>`;
+    if(k==="sponsors"&&(b.items||[]).length) out.push(block("Sponsors",`<div class="spons">${b.items.map(s=>{ const inner=s.logo?`<b data-logo="${esc(s.logo)}" data-alt="${esc(s.name||"Sponsor")}">${esc(s.name||"")}</b>`:`<b>${esc(s.name)}</b>`;
       return isHttps(s.url)?`<a href="${esc(s.url)}" target="_blank" rel="noopener">${inner}</a>`:`<span>${inner}</span>`; }).join("")}</div>`));
   });
+  out.push(`<button class="btn viewinv" type="button" data-viewinv>View the invitation</button>`);
   $("infoBody").innerHTML=out.join("");
   $("infoBody").querySelectorAll("[data-photo]").forEach(b=>fetchMedia(b.dataset.photo).then(j=>{ const im=new Image(); im.alt=""; im.onload=()=>{ b.appendChild(im); b.classList.add("ok"); }; im.src=j.data; }).catch(()=>{ b.remove(); }));
-  $("infoBody").querySelectorAll("[data-logo]").forEach(im=>fetchMedia(im.dataset.logo).then(j=>{ im.src=j.data; }).catch(()=>{ im.replaceWith(document.createTextNode(im.alt)); }));
+  /* sponsor logos: the name shows while the logo loads, then the logo replaces it (the name stays if it can't load) */
+  $("infoBody").querySelectorAll("[data-logo]").forEach(el=>fetchMedia(el.dataset.logo).then(j=>{ const im=new Image(); im.alt=el.dataset.alt; im.onload=()=>el.replaceWith(im); im.src=j.data; }).catch(()=>{}));
 }
 let infoBuilt=false, infoFocus=null;
 function openInfo(){ infoFocus=document.activeElement; if(!infoBuilt){ renderInfo(); infoBuilt=true; } $("infoScrim").hidden=false; setTimeout(()=>$("infoClose").focus(),50); }
@@ -713,6 +716,7 @@ $("infoBtn").onclick=openInfo; $("infoClose").onclick=closeInfo;
 $("infoScrim").onclick=e=>{ if(e.target===$("infoScrim")) closeInfo(); };
 function closeLightbox(){ $("lightbox").hidden=true; }
 $("lightbox").onclick=closeLightbox;
+$("infoBody").addEventListener("click",e=>{ if(!e.target.closest("[data-viewinv]")) return; closeInfo(); if(!opened&&!running) setTimeout(play,250); });
 $("infoBody").addEventListener("click",async e=>{
   const ph=e.target.closest("[data-photo]"); if(ph){ try{ const j=await fetchMedia(ph.dataset.photo); $("lbImg").src=j.data; $("lightbox").hidden=false; }catch(err){} return; }
   const fb=e.target.closest("[data-file]"); if(!fb) return;
@@ -766,7 +770,7 @@ function applyEnvelope(o){
   if(bgUrl) $("bgImg").style.backgroundImage=`url("${bgUrl}")`;   // default (none chosen) = White grain
   const st=document.getElementById("stampImg");
   if(o.stamp){ st.src=o.stamp; st.hidden=false; }
-  const ss=parseFloat(o.stampSize); if(ss>0) root.setProperty("--stamp-w",Math.min(30,Math.max(8,ss))+"%");
+  const ss=parseFloat(o.stampSize); if(ss>0) root.setProperty("--stamp-w",Math.min(90,Math.max(8,ss))+"%");
 }
 function loadDesign(){
   if(!INV.design) return Promise.resolve();
@@ -849,9 +853,18 @@ function fillInvitation(){
   size();
   let t; addEventListener("resize",()=>{ clearTimeout(t); t=setTimeout(()=>{ size(); if(opened && !running) showFinal(); },150); });
   const touch = matchMedia("(hover: none)").matches;
-  const ready = loadInvitation().then(inv=>{ INV=inv; fillInvitation(); return loadDesign(); }).then(()=>{
+  const filled = loadInvitation().then(inv=>{ INV=inv; fillInvitation(); });
+  const ready = filled.then(()=>loadDesign()).then(()=>{
       api({action:"view", invId:INV.id, viewerId:VIEWER, list:LIST}).catch(()=>{});   // automatic open tracking
       return true; });
+  /* links from the email: &open=details / &open=rsvp show that screen straight away, no animation.
+     The closed envelope waits behind it: closing the screen leaves "View the invitation". */
+  const OPEN=(Q.get("open")||"").toLowerCase();
+  if(OPEN==="details"||OPEN==="rsvp") filled.then(()=>{
+    if(OPEN==="rsvp" && RSVP_ON && !STATS.closed){ $("thanks").hidden=!ANSWERED; $("form").hidden=!!ANSWERED; openRsvp(); }
+    else if(PANEL_ON) openInfo();
+    else if(RSVP_ON && !STATS.closed) openRsvp();
+  }).catch(()=>{});
   const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
   env.classList.add("loading");
   Promise.race([fonts, wait(1200)]).then(arrive).then(()=>ready).then(()=>{   /* the envelope is on screen while the invitation loads; it opens once everything is in */
@@ -861,11 +874,7 @@ function fillInvitation(){
     const go=()=>play();
     env.addEventListener("click",go);
     env.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
-    /* links from the email: &open=rsvp or &open=details open the invitation and go straight there */
-    const OPEN=(Q.get("open")||"").toLowerCase();
-    if(OPEN==="rsvp"||OPEN==="details") play().then(()=>{
-      if(OPEN==="rsvp" && RSVP_ON && !STATS.closed){ $("thanks").hidden=!ANSWERED; $("form").hidden=!!ANSWERED; openRsvp(); }
-      else if(PANEL_ON) openInfo(); });
+
   }).catch(err=>{
     env.classList.remove("loading");
     const h=$("hint"); h.classList.add("err");
