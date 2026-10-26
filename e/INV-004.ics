@@ -1,0 +1,41 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Engel & Völkers Marbella//Invitations//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Madrid
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:INV-004@marbellaevcom.github.io
+DTSTAMP:20261026T141106Z
+DTSTART;TZID=Europe/Madrid:20261119T180000
+DTEND;TZID=Europe/Madrid:20261119T203000
+SUMMARY:Azurean Marbella Groundbreaking Cocktail Celebration
+LOCATION:Boho Club
+DESCRIPTION:Azurean Marbella Groundbreaking Cocktail Celebration\nHosted 
+ by Engel & Völkers Marbella\n\nWhen: Thursday\, 19 November 2026\, 18:00
+  – 20:30\nWhere: Boho Club\nMap: https://maps.app.goo.gl/q5ERNe36AUZnH2
+ c98\n\nAzurean Website: https://azureanmarbella.com/\n\nYour invitation: 
+ https://marbellaevcom.github.io/invitation/?inv=INV-004
+URL:https://marbellaevcom.github.io/invitation/?inv=INV-004
+ORGANIZER;CN=Engel & Völkers Marbella:mailto:noreply@marbellaevcom.githu
+ b.io
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
