@@ -861,6 +861,11 @@ function fillInvitation(){
     const go=()=>play();
     env.addEventListener("click",go);
     env.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
+    /* links from the email: &open=rsvp or &open=details open the invitation and go straight there */
+    const OPEN=(Q.get("open")||"").toLowerCase();
+    if(OPEN==="rsvp"||OPEN==="details") play().then(()=>{
+      if(OPEN==="rsvp" && RSVP_ON && !STATS.closed){ $("thanks").hidden=!ANSWERED; $("form").hidden=!!ANSWERED; openRsvp(); }
+      else if(PANEL_ON) openInfo(); });
   }).catch(err=>{
     env.classList.remove("loading");
     const h=$("hint"); h.classList.add("err");
