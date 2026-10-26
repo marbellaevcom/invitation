@@ -1,7 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Invitation · Engel &amp; Völkers Marbella</title>
+<title>You are invited · Engel &amp; Völkers Marbella</title>
+<meta name="description" content="Open your invitation and let us know if you can join us.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Engel &amp; Völkers Marbella">
+<meta property="og:title" content="You are invited · Engel &amp; Völkers Marbella">
+<meta property="og:description" content="Open your invitation and let us know if you can join us.">
+<meta property="og:image" content="https://marbellaevcom.github.io/invitation/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@400;500;600&display=swap">
@@ -50,9 +61,10 @@ body{background:var(--stone);color:var(--ink);font-family:var(--sans);overflow:h
 .stage{position:fixed;inset:0;display:grid;place-items:center;perspective:1600px}
 .env{position:relative;width:var(--ew);height:var(--eh);transform-style:preserve-3d;opacity:0}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.front{background-color:#e2d9d0;box-shadow:0 18px 40px rgba(20,25,35,.28),0 2px 6px rgba(20,25,35,.2);border-radius:3px;overflow:hidden}
+.front{background-color:#e2d9d0;transition:background-color .6s ease;box-shadow:0 18px 40px rgba(20,25,35,.28),0 2px 6px rgba(20,25,35,.2);border-radius:3px;overflow:hidden}
 .front::after{content:"";position:absolute;inset:0;background:var(--grain) center/90px,linear-gradient(160deg,rgba(255,255,255,.07),rgba(0,0,0,.08));mix-blend-mode:multiply;opacity:.9;pointer-events:none}
-.front .sender{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 12%;white-space:pre-line;line-height:1.25;font-family:var(--env-font,var(--serif));font-size:calc(var(--ew)*var(--env-size,4.2)/100);color:var(--env-text,#d9d3c5);letter-spacing:.03em;z-index:1}
+.front .sender{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 12%;white-space:pre-line;line-height:1.25;font-family:var(--env-font,var(--serif));font-size:calc(var(--ew)*var(--env-size,4.2)/100);color:var(--env-text,#d9d3c5);letter-spacing:.03em;z-index:1;transition:opacity .6s ease}
+.env.loading .front .sender,.env.loading .stamp-img{opacity:0}
 .front .to{position:absolute;left:8%;bottom:9%;font-size:calc(var(--ew)*.019);letter-spacing:.18em;text-transform:uppercase;color:#8d8a84}
 .stamp-img{position:absolute;top:6%;right:5%;width:var(--stamp-w,15%);height:auto;z-index:1;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.18))}
 .postmark[hidden]{display:none}
@@ -108,9 +120,10 @@ body{background:var(--stone);color:var(--ink);font-family:var(--sans);overflow:h
 @media (max-width:700px){
   .side{top:auto;bottom:calc(18px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));left:max(16px,env(safe-area-inset-left,0px));transform:translateY(20px);flex-direction:row}
   .side.show{transform:none}
-  .side{flex-wrap:wrap;gap:8px}
-  .side .btn{flex:1 1 0;padding:12px 8px;font-size:10px}
-  .side .rsvpbox{flex:1 1 100%;padding:12px 12px 12px}
+  .side{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .side .btn{box-sizing:border-box;padding:10px 6px;font-size:10px;letter-spacing:.12em;min-height:40px}
+  .side .btn.wide{grid-column:1 / -1}
+  .side .rsvpbox{grid-column:1 / -1;padding:12px 12px 12px}
   .rsvpbox .rh{margin-bottom:9px}
 }
  
@@ -153,6 +166,8 @@ label{display:grid;gap:5px;font-size:12px;color:#3a4152}
 label span::after{content:" *";color:var(--ok)}
 label.opt span::after{content:""}
 label .tip{font-style:normal;font-size:11px;color:var(--muted)}
+.idrow{display:grid;grid-template-columns:auto 1fr;gap:8px}
+.idrow select{width:auto;padding-right:28px}
 input,textarea,select{font:16px var(--sans);padding:10px 11px;border:1px solid #d3cfc7;border-radius:2px;background:#fff;color:var(--ink);width:100%;box-sizing:border-box;min-width:0}
 input[aria-invalid="true"],select[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--danger)}
 .err{color:var(--danger);font-size:11px;min-height:0;font-style:normal}
@@ -191,8 +206,11 @@ fieldset.q{display:grid;gap:8px}
 .ilinks{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .ilinks .btn{padding:11px 14px;font-size:10px;letter-spacing:.14em;text-decoration:none;box-shadow:none;border:1px solid #d9d5cd;background:#fff;color:var(--ink)}
 .ilinks .btn:hover{background:#f5f2ee}
-.gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
-.gal button{aspect-ratio:4/3;border:0;padding:0;background:#efece6 center/cover no-repeat;cursor:zoom-in;border-radius:2px}
+.gal{columns:2;column-gap:6px}
+.gal.one{columns:1}
+.gal button{display:block;width:100%;margin:0 0 6px;border:0;padding:0;background:#efece6;cursor:zoom-in;border-radius:2px;overflow:hidden;break-inside:avoid}
+.gal button:not(.ok){aspect-ratio:4/3}
+.gal img{display:block;width:100%;height:auto}
 .lightbox{position:fixed;inset:0;z-index:60;background:rgba(10,12,18,.92);display:grid;place-items:center;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));cursor:zoom-out}
 .lightbox img{max-width:100%;max-height:100%;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 .spons{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:16px;align-items:center}
@@ -286,11 +304,11 @@ fieldset.q{display:grid;gap:8px}
     <div class="rd" id="rsvpDone" hidden><span id="rsvpDoneText"></span><button type="button" id="rsvpChange">Change</button></div>
   </div>
   <button class="btn ghost" type="button" id="infoBtn" hidden>Event details</button>
+  <a class="btn ghost" id="calBtn" target="_blank" rel="noopener" hidden>Add to calendar</a>
   <button class="btn ghost" type="button" id="turnBtn" hidden>View the back</button>
-  <a class="btn ghost later" id="calBtn" target="_blank" rel="noopener" hidden>Add to calendar</a>
-  <a class="btn ghost later" id="mapBtn" target="_blank" rel="noopener" hidden>View on map</a>
-  <a class="btn ghost later" id="joinBtn" target="_blank" rel="noopener" hidden>Join online</a>
-  <button class="btn ghost later" type="button" id="replayBtn" hidden>Replay</button>
+  <a class="btn ghost" id="mapBtn" target="_blank" rel="noopener" hidden>View on map</a>
+  <a class="btn ghost" id="joinBtn" target="_blank" rel="noopener" hidden>Join online</a>
+  <button class="btn ghost" type="button" id="replayBtn" hidden>Replay</button>
 </div>
  
 <div class="scrim" id="scrim" hidden>
@@ -422,7 +440,11 @@ function showFinal(){
   revealUi();
 }
 let CAL_OK=false, MAP_OK=false, JOIN_OK=false;
-function showLater(attending){ $("calBtn").hidden=!(CAL_OK && attending!==false); $("mapBtn").hidden=!(MAP_OK && attending!==false); $("joinBtn").hidden=!(JOIN_OK && attending!==false); $("replayBtn").hidden=false; }
+/* buttons beside the card are set as soon as the invitation loads (the box is still invisible), so the final layout already leaves room for them */
+function setButtons(){ $("calBtn").hidden=!CAL_OK; $("mapBtn").hidden=!MAP_OK; $("joinBtn").hidden=!JOIN_OK; $("replayBtn").hidden=false;
+  const vis=[...$("side").querySelectorAll(":scope > .btn")].filter(b=>!b.hidden); vis.forEach(b=>b.classList.remove("wide"));
+  if(vis.length%2) vis[vis.length-1].classList.add("wide"); }
+function showLater(){ setButtons(); }
 function revealUi(){ opened=true; $("bar").classList.add("show"); $("side").classList.add("show"); card.classList.add("ready"); }
 /* two-sided cards: tap the card or "Turn over" */
 let FLIP_T=null, USER_TURNED=false;
@@ -473,13 +495,17 @@ async function play(){
 /* ---------- RSVP form (fields, questions and privacy note come from the panel) ---------- */
 const people=$("people"); let attending=null, guestCount=0;
 const FIELD_DEFS={first:["First name","text","given-name"],last:["Last name","text","family-name"],email:["Email","email","email"],phone:["Phone","tel","tel"],company:["Company","text","organization"],idDoc:["DNI / NIE","text","off"],plate:["Car plate","text","off"]};
-const FIELD_ROWS=[["first","last"],["email"],["phone","company"],["idDoc","plate"]];
+const FIELD_ROWS=[["first","last"],["email"],["phone","company"],["idDoc"],["plate"]];
+const ME_KEY="ev_me";   // details typed last time on this device (prefilled, and keeps the same invitee when the answer changes)
+function loadMe(){ try{ return JSON.parse(localStorage.getItem(ME_KEY)||"{}")||{}; }catch(e){ return {}; } }
+function saveMe(p){ try{ const k={}; ["first","last","email","phone","company"].forEach(x=>{ if(p&&p[x]) k[x]=p[x]; }); localStorage.setItem(ME_KEY,JSON.stringify(k)); }catch(e){} }
 const F=()=>CFG.rsvp.fields;
-function personKeys(isGuest){ const f=F(); const keys=Object.keys(FIELD_DEFS).filter(k=>k==="first"||(f[k]&&f[k]!=="off"));
+function personKeys(isGuest,decline){ const f=F(); const keys=Object.keys(FIELD_DEFS).filter(k=>k==="first"||(f[k]&&f[k]!=="off"));
+  if(decline) return keys.filter(k=>k==="first"||k==="last"||k==="email");
   return isGuest&&!CFG.rsvp.guestsSame ? keys.filter(k=>k==="first"||k==="last") : keys; }
-function personBlock(idx){
+function personBlock(idx,decline){
   const isGuest=idx>0, d=document.createElement("div"); d.className="person"; d.dataset.idx=idx;
-  const keys=personKeys(isGuest);
+  const keys=personKeys(isGuest,decline);
   d.innerHTML=`<div class="ph"><span>${isGuest?"Guest":"Your details"}</span>${isGuest?'<button type="button" data-remove>Remove</button>':""}</div>`+
     FIELD_ROWS.map(r=>r.filter(k=>keys.includes(k))).filter(r=>r.length).map(r=>r.length>1?`<div class="row">${r.map(k=>field(idx,k)).join("")}</div>`:field(idx,r[0])).join("");
   if(isGuest) d.querySelector("[data-remove]").onclick=()=>{ d.remove(); guestCount--; updateGuestBtn(); };
@@ -487,21 +513,25 @@ function personBlock(idx){
 }
 function field(i,k){
   const [label,type,auto]=FIELD_DEFS[k], id=`f${i}_${k}`, req=k==="first"||F()[k]==="req";
-  const extra = k==="idDoc" ? ' autocapitalize="characters" spellcheck="false" placeholder="e.g. 12345678Z"' : k==="plate" ? ' autocapitalize="characters" spellcheck="false" placeholder="e.g. 1234 ABC"' : "";
-  const tip = k==="idDoc" ? '<em class="tip">No DNI or NIE? Enter your passport number.</em>' : "";
-  return `<label for="${id}"${req?"":' class="opt"'}><span>${label}${req?"":' <em class="tip">(optional)</em>'}</span><input id="${id}" name="${k}" type="${type}" autocomplete="${i?"off":auto}"${req?" required":""}${extra}>${tip}<em class="err" id="${id}_e"></em></label>`;
+  const head=`<span>${k==="idDoc"?"ID document":label}${req?"":' <em class="tip">(optional)</em>'}</span>`;
+  if(k==="idDoc") return `<label for="${id}"${req?"":' class="opt"'}>${head}<div class="idrow"><select id="${id}_t" aria-label="Document type"><option value="dni">DNI / NIE</option><option value="passport">Passport</option></select><input id="${id}" name="idDoc" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="e.g. 12345678Z"${req?" required":""}></div><em class="err" id="${id}_e"></em></label>`;
+  const extra = k==="plate" ? ' autocapitalize="characters" spellcheck="false" placeholder="e.g. 1234 ABC"' : "";
+  return `<label for="${id}"${req?"":' class="opt"'}>${head}<input id="${id}" name="${k}" type="${type}" autocomplete="${i?"off":auto}"${req?" required":""}${extra}><em class="err" id="${id}_e"></em></label>`;
 }
+/* fill the main block: invitation link first, then what this device typed last time, then what was already typed in the form */
+function fillPerson(b,keep){ const me=loadMe(), [fn,...ln]=(INVITEE.name||"").split(" ");
+  const pre={first:fn||me.first, last:ln.join(" ")||me.last, email:INVITEE.email||me.email, phone:me.phone, company:INVITEE.company||me.company};
+  Object.keys(pre).forEach(k=>{ const el=b.querySelector("#f0_"+k), v=(keep&&keep[k])||pre[k]; if(el&&v) el.value=v; }); }
 function setAttend(v){
   if(v===true && STATS.full && ANSWERED!=="yes") v=false;
-  attending=v; $("yesBtn").setAttribute("aria-pressed",v===true); $("noBtn").setAttribute("aria-pressed",v===false);
+  const was=attending; attending=v; $("yesBtn").setAttribute("aria-pressed",v===true); $("noBtn").setAttribute("aria-pressed",v===false);
   $("formErr").textContent="";
-  if(v && !people.children.length){
-    const b=personBlock(0); people.appendChild(b);
-    const [fn,...ln]=(INVITEE.name||"").split(" ");
-    const put=(k,val)=>{ const el=b.querySelector("#f0_"+k); if(el&&val) el.value=val; };
-    put("first",fn); put("last",ln.join(" ")); put("email",INVITEE.email); put("company",INVITEE.company);
+  if(v!==null && (was!==v || !people.children.length)){
+    // keep what was typed when switching between "Will attend" and "Will not attend"
+    const keep={}; people.querySelectorAll('.person[data-idx="0"] input').forEach(i=>{ if(i.value.trim()) keep[i.name]=i.value.trim(); });
+    people.innerHTML=""; guestCount=0;
+    const b=personBlock(0,v===false); people.appendChild(b); fillPerson(b,keep);
   }
-  if(!v){ people.innerHTML=""; guestCount=0; }
   updateGuestBtn(); updateQs();
 }
 function updateGuestBtn(){ $("addGuest").hidden = !attending || guestCount>=CONFIG.maxGuests; }
@@ -509,6 +539,9 @@ $("yesBtn").onclick=()=>setAttend(true);
 $("form").addEventListener("input",e=>{ const t=e.target, er=t.id&&$(t.id+"_e"); if(er&&er.textContent){ er.textContent=""; t.removeAttribute("aria-invalid"); }
   const q=t.closest("[data-q]"); if(q){ const qe=q.querySelector(".err"); if(qe) qe.textContent=""; } if(t.id==="consent") $("formErr").textContent=""; });
 $("noBtn").onclick=()=>setAttend(false);
+/* ID type changed: new example, clear the error */
+people.addEventListener("change",e=>{ const t=e.target; if(!/_t$/.test(t.id||"")) return; const inp=$(t.id.slice(0,-2)); if(!inp) return;
+  inp.placeholder = t.value==="passport" ? "e.g. PAA123456" : "e.g. 12345678Z"; const er=$(inp.id+"_e"); if(er) er.textContent=""; inp.removeAttribute("aria-invalid"); });
 $("addGuest").onclick=()=>{ guestCount++; const b=personBlock(1+Date.now()%100000); people.appendChild(b); updateGuestBtn(); b.querySelector("input").focus(); };
  
 /* custom questions */
@@ -534,14 +567,23 @@ function answerOf(q){ const id="q_"+q.id;
 function idDocOk(v){ v=String(v||"").toUpperCase().replace(/[\s.\-]/g,""); const L="TRWAGMYFPDXBNJZSQVHLCKE"; let m=/^(\d{8})([A-Z])$/.exec(v);
   if(m) return L[parseInt(m[1],10)%23]===m[2]; m=/^([XYZ])(\d{7})([A-Z])$/.exec(v); if(m) return L[parseInt("XYZ".indexOf(m[1])+m[2],10)%23]===m[3];
   if(/^\d{7,8}$/.test(v)||/^[XYZ]\d{7}$/.test(v)) return false; return /^[A-Z0-9]{5,15}$/.test(v)&&/\d/.test(v); }
+/* "DNI / NIE": must be a real DNI (8 numbers + letter) or NIE (X/Y/Z + 7 numbers + letter) with the right control letter.
+   "Passport": 5–15 letters and numbers. */
+function idDocMsg(v,type){ v=String(v||"").toUpperCase().replace(/[\s.\-]/g,"");
+  if(type==="passport" && !/^(\d{8}|[XYZ]\d{7})[A-Z]$/.test(v)) return /^[A-Z0-9]{5,15}$/.test(v)&&/\d/.test(v)&&!/^\d{7,8}$/.test(v) ? "" : "Enter a valid passport number";
+  const L="TRWAGMYFPDXBNJZSQVHLCKE"; let m=/^(\d{8})([A-Z])$/.exec(v);
+  if(m) return L[parseInt(m[1],10)%23]===m[2] ? "" : "The DNI letter doesn’t match the number";
+  m=/^([XYZ])(\d{7})([A-Z])$/.exec(v);
+  if(m) return L[parseInt("XYZ".indexOf(m[1])+m[2],10)%23]===m[3] ? "" : "The NIE letter doesn’t match the number";
+  return "Enter a DNI (12345678Z) or NIE (X1234567L). For other documents choose Passport"; }
 function validate(){
   let ok=true; const flag=(el,errEl,m)=>{ if(errEl) errEl.textContent=m; if(el&&el.setAttribute) el.setAttribute("aria-invalid",!!m); if(m&&ok){ ok=false; el&&el.focus&&el.focus(); } };
-  if(attending) people.querySelectorAll("input").forEach(inp=>{
+  people.querySelectorAll("input").forEach(inp=>{
     const v=inp.value.trim(); let m="";
     if(!v && inp.required) m="Required";
     else if(v && inp.type==="email" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) m="Enter a valid email address";
     else if(v && inp.type==="tel" && v.replace(/\D/g,"").length<7) m="Enter a valid phone number";
-    else if(v && inp.name==="idDoc" && !idDocOk(v)) m="Check the number: the DNI / NIE letter doesn’t match";
+    else if(v && inp.name==="idDoc"){ const t=$(inp.id+"_t"); m=idDocMsg(v,t?t.value:"dni"); }
     else if(v && inp.name==="plate" && !/^[A-Z0-9 \-]{4,12}$/i.test(v)) m="Enter a valid car plate";
     flag(inp,$(inp.id+"_e"),m);
   });
@@ -553,7 +595,7 @@ function validate(){
 function collect(){
   const ps=[...people.querySelectorAll(".person")].map(p=>Object.fromEntries([...p.querySelectorAll("input")].map(i=>[i.name,i.value.trim()])));
   const answers={}; visibleQs().forEach(q=>{ answers[q.id]=answerOf(q); });
-  return { invId:INV.id, inviteeEmail:INVITEE.email||"", inviteeName:INVITEE.name||"", viewerId:VIEWER, attending, people:ps, answers, consent:!$("consentBox").hidden&&$("consent").checked, message:$("msg").value.trim() };
+  return { invId:INV.id, inviteeEmail:INVITEE.email||"", inviteeName:INVITEE.name||((ps[0]&&[ps[0].first,ps[0].last].filter(Boolean).join(" "))||""), viewerId:VIEWER, attending, people:ps, answers, consent:!$("consentBox").hidden&&$("consent").checked, message:$("msg").value.trim() };
 }
 function send(payload){
   return new Promise((res,rej)=>{
@@ -585,13 +627,13 @@ $("form").onsubmit=async e=>{
   if(!validate()) return;
   const btn=$("submitBtn"); btn.disabled=true; btn.textContent="Sending…";
   try{
-    const data=collect(); await send(data);
+    const data=collect(); await send(data); saveMe(data.people[0]);
     const first=(data.people[0]&&data.people[0].first)||INVITEE.name.split(" ")[0]||"";
     $("thxTitle").textContent= attending ? "See you there" : "Thank you";
     $("thxText").textContent= attending
       ? `${first?first+", your":"Your"} RSVP is confirmed${data.people.length>1?" for you and your guest"+(data.people.length>2?"s":""):""}. We'll send you the final details closer to the date.`
       : `${first?first+", we":"We"}'re sorry you can't join us. Thank you for letting us know.`;
-    $("form").hidden=true; $("thanks").hidden=false; showLater(attending);
+    $("form").hidden=true; $("thanks").hidden=false;
     markDone(attending);
     if(!isWide() && opened && !running){ size(); showFinal(); }
   }catch(err){
@@ -653,7 +695,7 @@ function renderInfo(){
     if(k==="summary"&&b.text) out.push(block("",`<p>${esc(b.text)}</p>`));
     if(k==="sections") (b.items||[]).forEach(s=>out.push(block(s.t,`<p>${esc(s.b)}</p>`)));
     if(k==="links"&&(b.items||[]).length) out.push(block("Links",`<div class="ilinks">${b.items.filter(l=>isHttps(l.u)).map(l=>`<a class="btn" href="${esc(l.u)}" target="_blank" rel="noopener">${esc(l.l||"Open link")}</a>`).join("")}</div>`));
-    if(k==="gallery"&&(b.items||[]).length) out.push(block("Gallery",`<div class="gal">${b.items.map((g,i)=>`<button type="button" data-photo="${esc(g.id)}" aria-label="Open photo ${i+1}"></button>`).join("")}</div>`));
+    if(k==="gallery"&&(b.items||[]).length) out.push(block("Gallery",`<div class="gal${b.items.length===1?" one":""}">${b.items.map((g,i)=>`<button type="button" data-photo="${esc(g.id)}" aria-label="Open photo ${i+1}"></button>`).join("")}</div>`));
     if(k==="guests"&&STATS.attending!=null){ const n=STATS.attending, names=STATS.names||[];
       out.push(block("Guest list", n ? (b.mode==="names"&&names.length ? `<ul class="glist">${names.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>${n>names.length?`<p style="margin-top:8px">and ${n-names.length} more guest${n-names.length>1?"s":""}</p>`:""}` : `<p>${n} ${n===1?"person has":"people have"} confirmed.</p>`) : `<p>No confirmations yet.</p>`)); }
     if(k==="files"&&(b.items||[]).length) out.push(block("Downloads",`<div class="ilinks">${b.items.map(f=>`<button type="button" class="btn" data-file="${esc(f.id)}" data-name="${esc(f.name)}">${esc(f.name)}${f.size?` · ${esc(f.size)}`:""}</button>`).join("")}</div>`));
@@ -661,7 +703,7 @@ function renderInfo(){
       return isHttps(s.url)?`<a href="${esc(s.url)}" target="_blank" rel="noopener">${inner}</a>`:`<span>${inner}</span>`; }).join("")}</div>`));
   });
   $("infoBody").innerHTML=out.join("");
-  $("infoBody").querySelectorAll("[data-photo]").forEach(b=>fetchMedia(b.dataset.photo).then(j=>{ b.style.backgroundImage=`url("${j.data}")`; }).catch(()=>{ b.remove(); }));
+  $("infoBody").querySelectorAll("[data-photo]").forEach(b=>fetchMedia(b.dataset.photo).then(j=>{ const im=new Image(); im.alt=""; im.onload=()=>{ b.appendChild(im); b.classList.add("ok"); }; im.src=j.data; }).catch(()=>{ b.remove(); }));
   $("infoBody").querySelectorAll("[data-logo]").forEach(im=>fetchMedia(im.dataset.logo).then(j=>{ im.src=j.data; }).catch(()=>{ im.replaceWith(document.createTextNode(im.alt)); }));
 }
 let infoBuilt=false, infoFocus=null;
@@ -737,15 +779,31 @@ function loadDesign(){
     const cf=document.createElement("div"); cf.className="cf"; cf.appendChild(front); flip.appendChild(cf);
     if(back){ const cb=document.createElement("div"); cb.className="cb"; cb.appendChild(back); flip.appendChild(cb);
       card.classList.add("two-sided"); card.setAttribute("role","button"); card.setAttribute("tabindex","0"); card.setAttribute("aria-label","Turn the card over");
-      $("turnBtn").hidden=false; }
+      $("turnBtn").hidden=false; setButtons(); }
     card.appendChild(flip); size();
   });
 }
+/* text for the calendar event: who, when, where, welcome message, sections, links and the invitation link */
+function calDetails(online, where){
+  const P=CFG.panel, on=k=>PANEL_ON_RAW && P[k] && P[k].on, out=[];
+  out.push(INV.title, "Hosted by "+HOST, "");
+  out.push("When: "+[INV.dateText, TIME_TEXT].filter(Boolean).join(", "));
+  if(online) out.push("Where: Online"+(JOIN_URL?" – "+JOIN_URL:"")+(CFG.loc.note?"\n"+CFG.loc.note:""));
+  else if(where) out.push("Where: "+where+(MAP_URL?"\nMap: "+MAP_URL:""));
+  if(on("summary") && P.summary.text) out.push("", P.summary.text);
+  if(on("sections")) (P.sections.items||[]).forEach(x=>{ if(x.t||x.b) out.push("", (x.t?x.t+": ":"")+(x.b||"")); });
+  if(on("links")){ const l=(P.links.items||[]).filter(x=>isHttps(x.u)); if(l.length) out.push("", l.map(x=>(x.l||"Link")+": "+x.u).join("\n")); }
+  out.push("", "Your invitation: "+location.origin+location.pathname+"?inv="+encodeURIComponent(INV.id));
+  let t=out.join("\n").replace(/\n{3,}/g,"\n\n");
+  if(t.length>1500) t=t.slice(0,1480).replace(/\s+\S*$/,"")+"…";
+  return t;
+}
+let PANEL_ON_RAW=false;
 function fillInvitation(){
   CFG=mergeCfg(cfgDefaults(),INV.cfg||null);
   if(!INV.cfg){ if(/save the date/i.test(INV.type)) CFG.kind="save"; CFG.rsvp.on=/rsvp/i.test(INV.type); }
   STATS=INV.stats||{};
-  const R=CFG.rsvp, online=CFG.loc.mode==="online";
+  const R=CFG.rsvp, online=CFG.loc.mode==="online"; PANEL_ON_RAW = CFG.panel.on!==false && !!INV.cfg;
   CONFIG.maxGuests = INV.maxGuests; RSVP_ON = CFG.kind!=="save" && R.on!==false;
   applyEnvelope(INV);
   document.title = INV.title + " · Engel & Völkers Marbella";
@@ -769,8 +827,8 @@ function fillInvitation(){
   const where=[INV.location,CFG.loc.address].filter(Boolean).join(", ");
   MAP_URL = online || CFG.loc.showMap===false ? "" : (isHttps(INV.mapsUrl) ? INV.mapsUrl : (where ? "https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(where) : ""));
   JOIN_URL = online && isHttps(CFG.loc.url) ? CFG.loc.url : "";
-  const calLoc = online ? JOIN_URL : (where || MAP_URL);
-  const details = "Hosted by "+HOST+(MAP_URL?"\nMap: "+MAP_URL:"")+(JOIN_URL?"\nJoin: "+JOIN_URL:"")+(CFG.loc.note?"\n"+CFG.loc.note:"");
+  const calLoc = online ? JOIN_URL : (MAP_URL || where);
+  const details = calDetails(online, where);
   if(dates) $("calBtn").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(INV.title)+"&dates="+dates+"&location="+encodeURIComponent(calLoc||"")+"&details="+encodeURIComponent(details);
   if(MAP_URL) $("mapBtn").href=MAP_URL;
   if(JOIN_URL) $("joinBtn").href=JOIN_URL;
@@ -781,7 +839,8 @@ function fillInvitation(){
   $("infoBtn").hidden = !PANEL_ON;
   renderQuestions();
   $("consentText").textContent = R.privacy || PRIV_DEFAULT;
-  if(!RSVP_ON){ $("rsvpBox").hidden=true; $("barBtn").hidden=true; $("barText").textContent=INV.title; showLater(true); }
+  setButtons();
+  if(!RSVP_ON){ $("rsvpBox").hidden=true; $("barBtn").hidden=true; $("barText").textContent=INV.title; }
   else applyRsvpState();
 }
 (function(){
@@ -794,13 +853,16 @@ function fillInvitation(){
       api({action:"view", invId:INV.id, viewerId:VIEWER, list:LIST}).catch(()=>{});   // automatic open tracking
       return true; });
   const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
-  Promise.all([fonts, ready.catch(()=>false)]).then(arrive).then(()=>ready)  /* wait for the design so the envelope already has its format */.then(()=>{
+  env.classList.add("loading");
+  Promise.race([fonts, wait(1200)]).then(arrive).then(()=>ready).then(()=>{   /* the envelope is on screen while the invitation loads; it opens once everything is in */
+    env.classList.remove("loading");
     $("hintText").textContent = touch ? "Tap the envelope to open" : "Click the envelope to open";
     env.classList.add("tappable");
     const go=()=>play();
     env.addEventListener("click",go);
     env.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
   }).catch(err=>{
+    env.classList.remove("loading");
     const h=$("hint"); h.classList.add("err");
     $("hintText").textContent = err && err.message==="missing" ? "This link is incomplete. Please use the button in your invitation email."
       : err && /not_found|archived/.test(err.message) ? "This invitation is no longer available."
