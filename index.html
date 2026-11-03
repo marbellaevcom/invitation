@@ -874,6 +874,9 @@ function fillInvitation(){
     const go=()=>play();
     env.addEventListener("click",go);
     env.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); go(); } });
+    /* opens by itself shortly after loading (guests don't need to find "tap to open"),
+       unless an email link already opened the event details or the RSVP form */
+    setTimeout(()=>{ if(!opened && !running && $("infoScrim").hidden && $("scrim").hidden) play(); }, reduce?400:1200);
 
   }).catch(err=>{
     env.classList.remove("loading");
