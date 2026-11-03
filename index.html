@@ -869,7 +869,7 @@ function fillInvitation(){
   env.classList.add("loading");
   Promise.race([fonts, wait(1200)]).then(arrive).then(()=>ready).then(()=>{   /* the envelope is on screen while the invitation loads; it opens once everything is in */
     env.classList.remove("loading");
-    $("hintText").textContent = touch ? "Tap the envelope to open" : "Click the envelope to open";
+    $("hintText").textContent = "Opening your invitation…";   // it opens by itself (see below); tapping opens it straight away
     env.classList.add("tappable");
     const go=()=>play();
     env.addEventListener("click",go);
