@@ -22,18 +22,18 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:INV-005@marbellaevcom.github.io
-DTSTAMP:20261104T095228Z
+DTSTAMP:20261107T153434Z
 DTSTART;TZID=Europe/Madrid:20261119T180000
 DTEND;TZID=Europe/Madrid:20261119T203000
-SUMMARY:Groundbreaking Cocktail Celebration
+SUMMARY:Azurean Groundbreaking Cocktail Celebration
 LOCATION:Boho Club\, Urb. Lomas de Río Verde\, 144 · 29602 Marbella\, M
  álaga
-DESCRIPTION:Groundbreaking Cocktail Celebration\nHosted by Azur Group and
-  Engel & Völkers Marbella\n\nWhen: Thursday\, 19 November 2026\, 18:00 
- – 20:30\nWhere: Boho Club\, Urb. Lomas de Río Verde\, 144 · 29602 Mar
- bella\, Málaga\nMap: https://maps.app.goo.gl/U3uuQJykanJe94d29\n\nAzurea
- n Marbella Web: https://azureanmarbella.com/\n\nYour invitation: https://
- marbellaevcom.github.io/invitation/?inv=INV-005
+DESCRIPTION:Azurean Groundbreaking Cocktail Celebration\nHosted by Azur G
+ roup and Engel & Völkers Marbella\n\nWhen: Thursday\, 19 November 2026\,
+  18:00 – 20:30\nWhere: Boho Club\, Urb. Lomas de Río Verde\, 144 · 29
+ 602 Marbella\, Málaga\nMap: https://maps.app.goo.gl/U3uuQJykanJe94d29\n\
+ nAzurean Marbella Web: https://azureanmarbella.com/\n\nYour invitation: h
+ ttps://marbellaevcom.github.io/invitation/?inv=INV-005
 URL:https://marbellaevcom.github.io/invitation/?inv=INV-005
 ORGANIZER;CN=Azur Group and Engel & Völkers Marbella:mailto:noreply@marb
  ellaevcom.github.io
