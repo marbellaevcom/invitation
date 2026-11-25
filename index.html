@@ -65,6 +65,9 @@ body{background:var(--stone);color:var(--ink);font-family:var(--sans);overflow:h
 .front::after{content:"";position:absolute;inset:0;background:var(--grain) center/90px,linear-gradient(160deg,rgba(255,255,255,.07),rgba(0,0,0,.08));mix-blend-mode:multiply;opacity:.9;pointer-events:none}
 .front .sender{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:0 12%;white-space:pre-line;line-height:1.25;font-family:var(--env-font,var(--serif));font-size:calc(var(--ew)*var(--env-size,4.2)/100);color:var(--env-text,#d9d3c5);letter-spacing:.03em;z-index:1;transition:opacity .6s ease}
 .env.loading .front .sender,.env.loading .stamp-img{opacity:0}
+/* while the invitation loads, the envelope shows its email picture (e/<ID>.jpg, cropped to the envelope) */
+.front.pre{background-size:127.66% auto;background-position:50% 44.7%;background-repeat:no-repeat}
+.front.pre::after{opacity:0}
 .front .to{position:absolute;left:8%;bottom:9%;font-size:calc(var(--ew)*.019);letter-spacing:.18em;text-transform:uppercase;color:#8d8a84}
 .stamp-img{position:absolute;top:6%;right:5%;width:var(--stamp-w,15%);height:auto;z-index:1;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.18))}
 .postmark[hidden]{display:none}
@@ -850,6 +853,12 @@ function fillInvitation(){
 (function(){
   if(INVITEE.name){ $("whoName").textContent=INVITEE.name; $("toLine").textContent="For "+INVITEE.name; }
  
+  /* show the email picture of this invitation on the envelope straight away (it comes from GitHub, much faster than the data) */
+  const PRE_ID=Q.get("inv")||"", front=env.querySelector(".front");
+  const endPre=()=>{ front.classList.remove("pre"); front.style.backgroundImage=""; };
+  if(/^[A-Za-z0-9-]{1,20}$/.test(PRE_ID)){ const im=new Image();
+    im.onload=()=>{ if(env.classList.contains("loading")){ front.style.backgroundImage=`url("${im.src}")`; front.classList.add("pre"); } };
+    im.src="e/"+encodeURIComponent(PRE_ID)+".jpg"; }
   size();
   let t; addEventListener("resize",()=>{ clearTimeout(t); t=setTimeout(()=>{ size(); if(opened && !running) showFinal(); },150); });
   const touch = matchMedia("(hover: none)").matches;
@@ -868,7 +877,7 @@ function fillInvitation(){
   const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
   env.classList.add("loading");
   Promise.race([fonts, wait(1200)]).then(arrive).then(()=>ready).then(()=>{   /* the envelope is on screen while the invitation loads; it opens once everything is in */
-    env.classList.remove("loading");
+    env.classList.remove("loading"); endPre();
     $("hintText").textContent = "Opening your invitation…";   // it opens by itself (see below); tapping opens it straight away
     env.classList.add("tappable");
     const go=()=>play();
@@ -879,7 +888,7 @@ function fillInvitation(){
     setTimeout(()=>{ if(!opened && !running && $("infoScrim").hidden && $("scrim").hidden) play(); }, reduce?400:1200);
 
   }).catch(err=>{
-    env.classList.remove("loading");
+    env.classList.remove("loading"); endPre();
     const h=$("hint"); h.classList.add("err");
     $("hintText").textContent = err && err.message==="missing" ? "This link is incomplete. Please use the button in your invitation email."
       : err && /not_found|archived/.test(err.message) ? "This invitation is no longer available."
