@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Engel & Völkers Marbella//Invitations//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VTIMEZONE
+TZID:Europe/Madrid
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:INV-006@marbellaevcom.github.io
+DTSTAMP:20261125T182605Z
+DTSTART;TZID=Europe/Madrid:20261217T203000
+DTEND;TZID=Europe/Madrid:20261217T233000
+SUMMARY:End of the Year Dinner Party
+LOCATION:Manero - Hotel Don Carlos\, Av. Zurita\, s/n\, 29604 Marbella\, 
+ Málaga
+DESCRIPTION:End of the Year Dinner Party\nHosted by Engel & Völkers\n\nW
+ hen: Thursday\, 17 December 2026\, 20:30\nWhere: Manero - Hotel Don Carlo
+ s\, Av. Zurita\, s/n\, 29604 Marbella\, Málaga\nMap: https://maps.app.go
+ o.gl/sAphFuuzkgGAbJKy6\n\nFormal invitation: Your formal invitation will 
+ follow.\n\nYour invitation: https://marbellaevcom.github.io/invitation/?i
+ nv=INV-006
+URL:https://marbellaevcom.github.io/invitation/?inv=INV-006
+ORGANIZER;CN=Engel & Völkers:mailto:noreply@marbellaevcom.github.io
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR
